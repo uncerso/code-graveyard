@@ -30,3 +30,6 @@
 *.exe
 *.app
 run
+
+# Other
+.gdb_history
