@@ -33,3 +33,6 @@ run
 
 # Other
 .gdb_history
+.gcda
+.gcno
+
