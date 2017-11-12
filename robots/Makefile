@@ -22,5 +22,5 @@ coverage : *.cpp
 clang : *.cpp
 	clang++-4.0 -O3 --std=c++1z $^ -o $(NAME)
 clean :
-	rm -rf *.gcno coverage_results/
+	rm -rf coverage_results/
 	lcov --directory . --zerocounters
