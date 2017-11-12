@@ -1,8 +1,9 @@
-#include <iostream>
+//#include <iostream>
 #include <fstream>
 #include <string>
 #include <cassert>
 #include "robots.hpp"
+#include <gtest/gtest.h>
 using namespace std;
 
 Robots loadToSample(string nameOfFile) noexcept {
@@ -34,13 +35,47 @@ int loadAns(string nameOfFile) noexcept {
 	return ans;
 }
 
-int main() {
-	// auto robots = loadToSample("simpleTest1");
-	// auto ans = loadAns("simpleTest1");
-	// auto robots = loadToSample("oddLoopTest1");
-	// auto ans = loadAns("oddLoopTest1");
+TEST(simpleTest, simpleTest1) {
+	auto robots = loadToSample("simpleTest1");
+	auto ans = loadAns("simpleTest1");
+	ASSERT_EQ(robots.solve(), ans);
+}
+
+TEST(simpleTest, simpleTest2) {
+	auto robots = loadToSample("simpleTest2");
+	auto ans = loadAns("simpleTest2");
+	ASSERT_EQ(robots.solve(), ans);
+}
+
+TEST(oddLoopTest, oddLoopTest1) {
+	auto robots = loadToSample("oddLoopTest1");
+	auto ans = loadAns("oddLoopTest1");
+	ASSERT_EQ(robots.solve(), ans);
+}
+
+TEST(oddLoopTest, oddLoopTest2) {
+	auto robots = loadToSample("oddLoopTest2");
+	auto ans = loadAns("oddLoopTest2");
+	ASSERT_EQ(robots.solve(), ans);
+}
+
+TEST(evenLoopTest, evenLoopTest1) {
 	auto robots = loadToSample("evenLoopTest1");
 	auto ans = loadAns("evenLoopTest1");
-	cout << (robots.solve() == ans);
-	return 0;
+	ASSERT_EQ(robots.solve(), ans);
+}
+
+TEST(evenLoopTest, evenLoopTest2) {
+	auto robots = loadToSample("evenLoopTest2");
+	auto ans = loadAns("evenLoopTest2");
+	ASSERT_EQ(robots.solve(), ans);
+}
+
+int main(int argc, char *argv[]) {
+	// auto robots = loadToSample("evenLoopTest1");
+	// auto ans = loadAns("evenLoopTest1");
+	// cout << (robots.solve() == ans);
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+	//return 0;
 }
