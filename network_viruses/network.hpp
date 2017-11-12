@@ -9,7 +9,7 @@ template <class T>
 class Network {
 	using uint = unsigned int;
 	T gen;
-	std::vector<std::list<int> > graph;
+	std::vector<std::list<uint> > graph;
 	std::vector<Computer> computers;
 	std::list<uint> setOfIefested;
 public:
@@ -58,14 +58,15 @@ std::vector<bool> Network<T>::getState() const {
 
 template <class T>
 void Network<T>::step() {
-	std::list<int> tmp;
+	std::list<uint> tmp;
 	for (auto x : setOfIefested) {
 		for (auto &v : graph[x])
-			if (!v.isInfected()) {
-				v.probe(gen());
-				if (v.isInfected())
+			if (!computers[v].isInfected()) {
+				computers[v].probe(gen());
+				if (computers[v].isInfected())
 					tmp.push_back(v);
 			}
 	}
-	setOfIefested.push_back(tmp);
+	for (auto &x : tmp)
+		setOfIefested.push_back(x);
 }
