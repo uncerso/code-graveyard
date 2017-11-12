@@ -1,7 +1,7 @@
 #pragma once
 #include <iterator>
 #include <cassert>
-#include <iostream>
+//#include <iostream>
 
 template <class T>
 class BST {
@@ -16,12 +16,12 @@ class BST {
 		     vert    *prev,
 		     vert    *next);
 		~vert();
-		vert* find(const T &value);
+		vert*find(const T &value);
 		void insert(const T &value);
-		vert* erase(const T &value,
-		            bool needRemoveValue = true);
+		vert*erase(const T &value,
+		           bool needRemoveValue = true);
 
-		void print();
+//		void print();
 	};
 
 	vert *_root;
@@ -50,7 +50,7 @@ public:
 	void insert(const T &value);
 	void erase(const T &value);
 
-	void print();
+//	void print();
 
 	iterator begin();
 	iterator end();
@@ -162,11 +162,11 @@ typename BST<T>::iterator BST<T>::find(const T &value) {
 	return end();
 }
 
-template <class T>
-void BST<T>::print() {
-	if (_root) _root->print();
-	std::cout << '\n';
-}
+// template <class T>
+// void BST<T>::print() {
+//      if (_root) _root->print();
+//      std::cout << '\n';
+// }
 
 // ------------------------------</BST>------------------------------
 // ------------------------------<vert>------------------------------
@@ -267,12 +267,12 @@ typename BST<T>::vert * BST<T>::vert::find(const T &value) {
 	return this;
 }
 
-template <class T>
-void BST<T>::vert::print() {
-	if (_left) _left->print();
-	std::cout << *_value << "\tthis: " << _value << "\tprev: " <<
-	_previous << "\tnext: " << _next << '\n';
-	if (_right) _right->print();
-}
+// template <class T>
+// void BST<T>::vert::print() {
+//      if (_left) _left->print();
+//      std::cout << *_value << "\tthis: " << _value << "\tprev: " <<
+//      _previous << "\tnext: " << _next << '\n';
+//      if (_right) _right->print();
+// }
 
 // ------------------------------</vert>------------------------------
