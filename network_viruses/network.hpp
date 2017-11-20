@@ -15,12 +15,27 @@ class Network {
 	std::vector<Computer> computers;
 	std::list<uint> setOfInfected;
 public:
+	// Constructor
+	// gen - random generator
 	Network(T const &gen);
+
+	// Destructor
 	~Network() = default;
+
+	// Add an edge between the 'first' and 'second' computer
 	void addEdge(uint first, uint second);
+
+	// Next iteration of network emulation
 	void step();
+
+	// Add a virus to the computer with number of 'pos'
 	void addVirus(uint pos);
+
+	// Add a computer to the network
+	// The smallest free number is assigned to it
 	void addComputer(Computer const &comp);
+
+	// Returns a vector which indicates whether each computer has a virus
 	std::vector<bool> getState() const;
 };
 
