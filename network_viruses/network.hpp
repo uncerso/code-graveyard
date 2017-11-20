@@ -5,19 +5,21 @@
 #include <list>
 #include <cassert>
 
+namespace net {
+
 template <class T>
 class Network {
 	using uint = unsigned int;
 	T gen;
 	std::vector<std::list<uint> > graph;
 	std::vector<Computer> computers;
-	std::list<uint> setOfIefested;
+	std::list<uint> setOfInfected;
 public:
 	Network(T const &gen);
 	~Network() = default;
 	void addEdge(uint first, uint second);
 	void step();
-	void addViruse(uint pos);
+	void addVirus(uint pos);
 	void addComputer(Computer const &comp);
 	std::vector<bool> getState() const;
 };
@@ -36,10 +38,10 @@ void Network<T>::addEdge(uint first, uint second) {
 }
 
 template <class T>
-void Network<T>::addViruse(uint pos) {
+void Network<T>::addVirus(uint pos) {
 	assert(pos < computers.size());
-	computers[pos].setViruse();
-	setOfIefested.push_back(pos);
+	computers[pos].setVirus();
+	setOfInfected.push_back(pos);
 }
 
 template <class T>
@@ -59,7 +61,7 @@ std::vector<bool> Network<T>::getState() const {
 template <class T>
 void Network<T>::step() {
 	std::list<uint> tmp;
-	for (auto x : setOfIefested) {
+	for (auto x : setOfInfected) {
 		for (auto &v : graph[x])
 			if (!computers[v].isInfected()) {
 				computers[v].probe(gen());
@@ -68,5 +70,7 @@ void Network<T>::step() {
 			}
 	}
 	for (auto &x : tmp)
-		setOfIefested.push_back(x);
+		setOfInfected.push_back(x);
+}
+
 }

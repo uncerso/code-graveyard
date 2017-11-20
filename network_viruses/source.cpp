@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 using namespace std;
+using namespace net;
 
 class CustomRandomFactory : public RandomFactory {
 	unsigned int number;
@@ -30,13 +31,13 @@ void nothingBesideZero(Network<T> const &net) {
 
 TEST(CustomRandomFactory, weak_viruse) {
 	const int n = 10;
-	CustomRandomFactory rd(1);
+	CustomRandomFactory customRandomFactory(1);
 	Network<CustomRandomFactory> net(CustomRandomFactory(5));
 	for (int i = 0; i < n; ++i)
-		net.addComputer(Computer(rd()));
+		net.addComputer(Computer(customRandomFactory()));
 	for (int i = 1; i < n; ++i)
 		net.addEdge(0, i);
-	net.addViruse(0);
+	net.addVirus(0);
 	nothingBesideZero(net);
 	for (int i = 0; i < 10000; ++i) {
 		net.step();
@@ -46,13 +47,13 @@ TEST(CustomRandomFactory, weak_viruse) {
 
 TEST(CustomRandomFactory, strong_viruse_one_step) {
 	const int n = 100000;
-	CustomRandomFactory rd(10);
+	CustomRandomFactory customRandomFactory(10);
 	Network<CustomRandomFactory> net(CustomRandomFactory(5));
 	for (int i = 0; i < n; ++i)
-		net.addComputer(Computer(rd()));
+		net.addComputer(Computer(customRandomFactory()));
 	for (int i = 1; i < n; ++i)
 		net.addEdge(0, i);
-	net.addViruse(0);
+	net.addVirus(0);
 	nothingBesideZero(net);
 	net.step();
 	for (auto const & x : net.getState())
@@ -61,15 +62,15 @@ TEST(CustomRandomFactory, strong_viruse_one_step) {
 
 TEST(CustomRandomFactory, strong_viruse_tree) {
 	const int n = (1 << 16) - 1;
-	CustomRandomFactory rd(10);
+	CustomRandomFactory customRandomFactory(10);
 	Network<CustomRandomFactory> net(CustomRandomFactory(5));
 	for (int i = 0; i < n; ++i)
-		net.addComputer(Computer(rd()));
+		net.addComputer(Computer(customRandomFactory()));
 	for (int i = 0; ((i + 1) << 1) < n; ++i) { // (i + 1) << 1 equal i*2 + 2
 		net.addEdge(i, (i << 1) + 1);
 		net.addEdge(i, (i << 1) + 2);
 	}
-	net.addViruse(0);
+	net.addVirus(0);
 	size_t infestedTo = 1;
 	nothingBesideZero(net);
 	for (size_t i = 0; i < 63; ++i) {
@@ -84,15 +85,15 @@ TEST(CustomRandomFactory, strong_viruse_tree) {
 
 TEST(RandomFactory, random_viruse_tree) {
 	const int n = (1 << 16) - 1;
-	RandomFactory rd;
+	RandomFactory randomFactory;
 	Network<RandomFactory> net((RandomFactory()));
 	for (int i = 0; i < n; ++i)
-		net.addComputer(Computer(rd()));
+		net.addComputer(Computer(randomFactory()));
 	for (int i = 0; ((i + 1) << 1) < n; ++i) { // (i + 1) << 1 equal i*2 + 2
 		net.addEdge(i, (i << 1) + 1);
 		net.addEdge(i, (i << 1) + 2);
 	}
-	net.addViruse(0);
+	net.addVirus(0);
 	nothingBesideZero(net);
 	size_t infestedTo = 1;
 	auto last(net.getState());
