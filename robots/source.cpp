@@ -5,6 +5,7 @@
 #include "robots.hpp"
 #include <gtest/gtest.h>
 using namespace std;
+using namespace robots;
 
 Robots loadToSample(string nameOfFile) noexcept {
 	Robots robots;

@@ -3,6 +3,8 @@
 #define NOT_A_COLOR 2
 using std::vector;
 
+namespace robots {
+
 void Robots::addEdge(uint first, uint second) noexcept {
 	assert(first < graph.size());
 	assert(second < graph.size());
@@ -46,4 +48,6 @@ bool Robots::solve() noexcept {
 				++cntColor2;
 		}
 	return !(1 & (cntColor1 | cntColor2)); //ItObvious
+}
+
 }
