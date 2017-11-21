@@ -6,7 +6,7 @@
 #include <cassert>
 
 namespace net {
-
+/// Emulator of a network with viruses
 template <class T>
 class Network {
 	using uint = unsigned int;
@@ -15,27 +15,27 @@ class Network {
 	std::vector<Computer> computers;
 	std::list<uint> setOfInfected;
 public:
-	// Constructor
-	// gen - random generator
+	/// Constructor
+	/// gen - random generator
 	Network(T const &gen);
 
-	// Destructor
+	/// Destructor
 	~Network() = default;
 
-	// Add an edge between the 'first' and 'second' computer
+	/// Add an edge between the 'first' and 'second' computer
 	void addEdge(uint first, uint second);
 
-	// Next iteration of network emulation
+	/// Next iteration of network emulation
 	void step();
 
-	// Add a virus to the computer with number of 'pos'
+	/// Add a virus to the computer with number of 'pos'
 	void addVirus(uint pos);
 
-	// Add a computer to the network
-	// The smallest free number is assigned to it
+	/// Add a computer to the network
+	/// The smallest free number is assigned to it
 	void addComputer(Computer const &comp);
 
-	// Returns a vector which indicates whether each computer has a virus
+	/// Returns a vector which indicates whether each computer has a virus
 	std::vector<bool> getState() const;
 };
 
@@ -70,7 +70,7 @@ std::vector<bool> Network<T>::getState() const {
 	std::vector<bool> ans(computers.size());
 	for (int i = 0, iend = computers.size(); i < iend; ++i)
 		ans[i] = computers[i].isInfected();
-	return ans; //NRVO optimization
+	return ans; ///NRVO optimization
 }
 
 template <class T>
