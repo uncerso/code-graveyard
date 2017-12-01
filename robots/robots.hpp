@@ -9,7 +9,7 @@ class Robots {
 	uint amountOfRobots = 0;
 	std::vector<bool> withRobot;
 	std::vector<std::vector<uint> > graph;
-	bool dfs(uint, bool, std::vector<uint> ) noexcept;
+	bool dfs(uint pos, bool color, vector<uint> const & colors) noexcept;
 
 public:
 
@@ -18,13 +18,13 @@ public:
 
 	/// Add a vertice to the graph
 	/// The smallest free number is assigned to it
-	void addVertices(uint) noexcept;
+	void addVertices(uint cnt) noexcept;
 
 	/// Set a robot to the vertice
-	void setRobot(uint) noexcept;
+	void setRobot(uint pos) noexcept;
 
 	/// Add an edge between two vertices
-	void addEdge(uint, uint) noexcept;
+	void addEdge(uint first, uint second) noexcept;
 
 	/// Checks whether robots can destroy each other
 	bool solve() noexcept;
