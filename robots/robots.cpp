@@ -23,9 +23,9 @@ void Robots::addVertices(uint cnt) noexcept {
 	withRobot.resize(withRobot.size() + cnt);
 }
 
-bool Robots::dfs(uint pos, bool color, vector<uint> colors) noexcept {
+bool Robots::dfs(uint pos, bool color, vector<uint> const & colors) noexcept {
 	colors[pos] = color;
-	for (auto &v : graph[pos]) {
+	for (auto const &v : graph[pos]) {
 		if (colors[v] == color)
 			return true;          //It is an odd loop
 		if (colors[v] == NOT_A_COLOR)
