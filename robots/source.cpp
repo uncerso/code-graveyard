@@ -7,7 +7,7 @@
 using namespace std;
 using namespace robots;
 
-Robots loadToSample(string nameOfFile) noexcept {
+Robots loadToSample(string const & nameOfFile) noexcept {
 	Robots robots;
 	ifstream inp("tests/" + nameOfFile + ".in");
 	assert(inp.is_open());
@@ -27,7 +27,7 @@ Robots loadToSample(string nameOfFile) noexcept {
 	return robots;
 }
 
-int loadAns(string nameOfFile) noexcept {
+int loadAns(string const & nameOfFile) noexcept {
 	ifstream inp("tests/" + nameOfFile + ".out");
 	assert(inp.is_open());
 	int ans;
@@ -73,10 +73,6 @@ TEST(evenLoopTest, evenLoopTest2) {
 }
 
 int main(int argc, char *argv[]) {
-	// auto robots = loadToSample("evenLoopTest1");
-	// auto ans = loadAns("evenLoopTest1");
-	// cout << (robots.solve() == ans);
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
-	//return 0;
 }
