@@ -1,6 +1,6 @@
 #include "robots.hpp"
 #include <cassert>
-#define NOT_A_COLOR 2
+const int notAColor(2);
 using std::vector;
 
 namespace robots {
@@ -28,7 +28,7 @@ bool Robots::dfs(uint pos, bool color, vector<uint> & colors) noexcept {
 	for (auto const &v : graph[pos]) {
 		if (colors[v] == color)
 			return true;          //It is an odd loop
-		if (colors[v] == NOT_A_COLOR)
+		if (colors[v] == notAColor)
 			if (dfs(v, !color, colors))
 				return true;  //Odd loop has been found
 	}
@@ -36,7 +36,7 @@ bool Robots::dfs(uint pos, bool color, vector<uint> & colors) noexcept {
 }
 
 bool Robots::solve() noexcept {
-	vector<uint> colors(graph.size(), NOT_A_COLOR);
+	vector<uint> colors(graph.size(), notAColor);
 	if (dfs(0, false, colors) && !(amountOfRobots & 1)) return true;  //Odd loop with even amount of robots
 	int cntColor1 = 0;
 	int cntColor2 = 0;
