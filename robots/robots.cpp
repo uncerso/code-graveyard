@@ -23,7 +23,7 @@ void Robots::addVertices(uint cnt) noexcept {
 	withRobot.resize(withRobot.size() + cnt);
 }
 
-bool Robots::dfs(uint pos, bool color, vector<uint> const & colors) noexcept {
+bool Robots::dfs(uint pos, bool color, vector<uint> & colors) noexcept {
 	colors[pos] = color;
 	for (auto const &v : graph[pos]) {
 		if (colors[v] == color)

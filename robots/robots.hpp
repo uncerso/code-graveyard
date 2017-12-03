@@ -9,7 +9,7 @@ class Robots {
 	uint amountOfRobots = 0;
 	std::vector<bool> withRobot;
 	std::vector<std::vector<uint> > graph;
-	bool dfs(uint pos, bool color, vector<uint> const & colors) noexcept;
+	bool dfs(uint pos, bool color, std::vector<uint> & colors) noexcept;
 
 public:
 
