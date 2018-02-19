@@ -1,8 +1,0 @@
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\bin\Debug\netcoreapp2.0\FirstSteps.deps.json
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\bin\Debug\netcoreapp2.0\FirstSteps.runtimeconfig.json
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\bin\Debug\netcoreapp2.0\FirstSteps.runtimeconfig.dev.json
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\bin\Debug\netcoreapp2.0\FirstSteps.dll
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\bin\Debug\netcoreapp2.0\FirstSteps.pdb
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\obj\Debug\netcoreapp2.0\FirstSteps.fsprojResolveAssemblyReference.cache
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\obj\Debug\netcoreapp2.0\FirstSteps.dll
-c:\users\yayay\source\repos\FirstSteps\FirstSteps\obj\Debug\netcoreapp2.0\FirstSteps.pdb

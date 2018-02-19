@@ -7,26 +7,26 @@ let readInt = Int32.Parse << Console.ReadLine
 
 //====================<task 1>====================
 let rec factorial (n:bigint) : bigint =
-    if (n<2I) then 1I else n*factorial(n-1I)
+    if (n < 2I) then 1I else n * factorial(n - 1I)
 //====================</task 1>===================
 
 //====================<task 2>====================
-let rec fib n mn mx : bigint =
-    if (n=1I) then mn else fib (n-1I) mx (mn+mx)
+let rec fib n minOfTheNum maxOfTheNum : bigint =
+    if (n = 1I) then minOfTheNum  else fib (n - 1I) maxOfTheNum (minOfTheNum + maxOfTheNum)
 
 let fibonacci n =
-    assert(n>0I)
+    assert(n > 0I)
     fib n 0I 1I
 //====================</task 2>===================
 
 //====================<task 3>====================
 let revers ls =
-    List.foldBack (fun el acc -> List.append acc [el;]) ls []
+    List.fold (fun acc el -> List.append [el;] acc) [] ls
 //====================</task 3>===================
 
 //====================<task 4>====================
 let gen n m = 
-    List.init m (fun index -> 2I**(n+index))
+    List.init m (fun index -> 1I <<< (n + index))
 //====================</task 4>===================
 
 (*_*)
