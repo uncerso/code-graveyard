@@ -13,8 +13,10 @@ let rec productOfDigitsOfNumber x =
 //====================</task 1>===================
 
 //====================<task 2>====================
-let findAndGetFirstIndexes ls pattern =
-    max -1 (-List.fold (fun acc el -> if acc < 0 then acc elif pattern = el then -acc else (acc + 1)) 0 ls)
+let findAndGetFirstIndexes ls pattern : int option=
+    let acc1, acc2 = List.fold (fun (acc1, acc2) el -> if acc2 then (acc1, acc2) elif pattern = el then (acc1, true) else (acc1 + 1, false)) (0, false) ls
+    if acc2 then Some(acc1)
+    else None
 //====================</task 2>===================
 
 //====================<task 3>====================
@@ -61,8 +63,11 @@ let main argv =
     printf "Enter size of a list which will be generated with random numbers from 0 to 9: "
     let n = readInt()
     let ls = List.init n (fun _ -> (rnd.Next() % 10))
-    printfn "%A\n%A\nEnter your number from 0 to 9" <| [0..n-1] <| ls
-    printfn "%d" <| findAndGetFirstIndexes ls (readInt())
+    printfn "%A\n%A\nEnter your number from 0 to 9" <| [0..n - 1] <| ls
+    let ans = findAndGetFirstIndexes ls (readInt())
+    if (ans.IsNone) 
+        then printfn "-1"
+    else printfn "%d" <| ans.Value
     (*task 3*)
     printfn "Enter string to check: "
     printfn "%b" <| palindromeChecker(readStr())
