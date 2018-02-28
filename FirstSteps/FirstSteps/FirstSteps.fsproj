@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Program2.fs" />
+    <Compile Include="Program3.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FsCheck" Version="2.10.7" />
+    <PackageReference Include="FsUnit" Version="3.1.0" />
   </ItemGroup>
 
 </Project>
