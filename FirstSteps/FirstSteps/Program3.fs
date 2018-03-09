@@ -11,12 +11,11 @@ let rnd = System.Random()
 
 //====================<task 1>====================
 let amountOfEvenNumbersWithFold ls = 
-    List.fold (fun acc el -> if ((el &&& 1) = 0) then acc + 1 else acc) 0 ls
+    List.fold (fun acc el -> acc + 1 - (el &&& 1)) 0 ls
 let amountOfEvenNumbersWithMap ls = 
-    List.sum (List.map (fun el -> if ((el &&& 1) = 0) then 1 else 0) ls)
+    List.sum (List.map (fun el -> 1 - (el &&& 1)) ls)
 let amountOfEvenNumbersWithFilter ls = 
-    List.length (List.filter (fun el -> if ((el &&& 1) = 0) then true else false) ls)
-
+    List.length (List.filter (fun el -> (el &&& 1) = 0) ls)
 
 let task1checker ls ans =
     amountOfEvenNumbersWithFold  ls |> should equal ans;
@@ -59,8 +58,12 @@ type Tree<'T> =
 
 let rec print tr =
     match tr with
-    | Tree(x, l, r) -> print(l); printf "%d " x; print(r)
-    | Tip(x) -> printf "%d " x;
+    | Tree(x, l, r) -> 
+            print(l); 
+            printf "%d " x; 
+            print(r)
+    | Tip(x) -> 
+            printf "%d " x;
 
 let rec map (foo: 'a -> 'b) (tr:Tree<'a>) : Tree<'b>=
     match tr with
@@ -88,10 +91,10 @@ let task2Tests =
 //====================<task 3>====================
 type Operator = 
     | X of double
-    | Sum of Operator*Operator
-    | Sub of Operator*Operator
-    | Mp of Operator*Operator
-    | Div of Operator*Operator
+    | Sum of Operator * Operator
+    | Sub of Operator * Operator
+    | Mp of Operator * Operator
+    | Div of Operator * Operator
 
 let rec eval (op : Operator) = 
     match op with
@@ -128,7 +131,7 @@ let primeTest (num:uint64) =
 
 let primeNumbers = 
     seq{ yield 2UL
-         for acc in 3UL..2UL..uint64 ((1I<<<64)-1I) do if (primeTest acc) then yield acc}
+         for acc in 3UL..2UL..uint64 ((1I <<< 64) - 1I) do if (primeTest acc) then yield acc}
 
 [<Test>]
 let task4Tests =
