@@ -56,9 +56,9 @@ let reduction tm =
             | [] -> apply (Terms ((replace a b t)::tail))
             | x ->  apply (Terms (Lambda(x, replace a b t)::tail))
         | Terms (t::tail) -> 
-            match apply t with
-            | Lambda(x, y) -> apply <| Terms(Lambda(x, y)::tail)
-            | o ->Terms <| o::(List.foldBack (fun el acc -> (apply el) ::acc) tail [])
+            match t with
+            | Terms (x) -> apply <| Terms (List.append x tail)
+            | o ->Terms <| (List.foldBack (fun el acc -> (apply el) ::acc) (o::tail) [])
 
     normalize <| apply tm    
 
@@ -96,11 +96,22 @@ let test =
     let ans = Lambda (["z"], Var "z")
     reduction tm |> should equal ans
 
+    let tm = Terms [Lambda(["x"], Var "y"); Terms[Lambda(["z"], Terms [Var "z"; Var "z"]);Lambda(["z"], Terms [Var "z"; Var "z"])]]
+    let ans = Var "y"
+    reduction tm |> should equal ans
+
+    let tm = Terms [Terms[Lambda(["x"], Var "y")]; Terms[Lambda(["z"], Terms [Var "z"; Var "z"]);Lambda(["z"], Terms [Var "z"; Var "z"])]]
+    let ans = Var "y"
+    reduction tm |> should equal ans
+
+    let tm = Terms [Terms[Terms[Lambda(["x"], Var "y")]]; Terms[Lambda(["z"], Terms [Var "z"; Var "z"]);Lambda(["z"], Terms [Var "z"; Var "z"])]]
+    let ans = Var "y"
+    reduction tm |> should equal ans
+
     let PAIR = Lambda (["x"; "y"; "f"], Terms([Var "f"; Var "x"; Var "y"]))
     let ans = Lambda (["f"], Terms[Var "f"; Var "a"; Var "b"])
     let tm = Terms[PAIR; Var "a"; Var "b"]
     reduction tm |> should equal ans
-    
     
     let TRUE = Lambda(["x"; "y"], Var "x")
     let FALSE = Lambda(["x"; "y"], Var "y")
