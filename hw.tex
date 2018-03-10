@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[russian]{babel}
+\begin{document}
+4.1
+
+((a.($\lambda$b.b b)($\lambda$b.b b))b)(($\lambda$c.(c b))($\lambda$a.a)) = (($\lambda$b.b b)($\lambda$b.b b))(($\lambda$c.(c b))($\lambda$a.a))
+Дальше нет смысла что-то делать, ведь ($\lambda$b.b b)($\lambda$b.b b) - расходящийся комбинатор.
+$$$$
+
+4.2
+
+S K K = $\lambda$x.$\lambda$y.$\lambda$z.x z (y z)) K K = ($\lambda$.x$\lambda$.z.K z (y z)) K = $\lambda$z.K z (K z) = $\lambda$z.($\lambda$x.$\lambda$y.x) z (K z) =
+$\lambda$z.$\lambda$y.z (K z) = $\lambda$z.z
+\end{document}
+Engine - pdflatex. С ним всё работает.
