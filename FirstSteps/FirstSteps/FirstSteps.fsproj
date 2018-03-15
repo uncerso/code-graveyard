@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Program4.fs" />
+    <Compile Include="Program5.fs" />
   </ItemGroup>
 
   <ItemGroup>
