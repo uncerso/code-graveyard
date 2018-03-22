@@ -15,8 +15,8 @@ type Term =
 
 exception Errors of string
 
-let rec normalize tm = 
-    match tm with 
+let rec normalize term = 
+    match term with 
     | Terms [] -> raise <| Errors("You can't use Terms []")
     | Lambda (s, t) ->
         match normalize t with
@@ -27,64 +27,69 @@ let rec normalize tm =
         | Terms([]) -> raise <| Errors("This should not have happened.")
         | Terms [o] -> o
         | o -> o
-    | Terms t -> Terms <| List.foldBack (fun el acc -> (normalize el) ::acc) t []
+    | Terms t -> Terms <| List.foldBack (fun el acc -> (normalize el)::acc) t []
     | o -> o
 
 let nextInt t =
     t + 1UL
 
-let nextList (ls:list<int>) =
-    let rec foo (ls:list<int>) x = 
+
+//returns next element in the sequence: a, b, .. z, aa, ab, .. az, ba, bb, ... (you need to add the code of 'a')
+let nextList ls =
+    let rec add ls carry = 
         let cntOfChars = 26
         match ls with
-        | [t] -> ([(x + t) % cntOfChars], (x + t) / cntOfChars)
-        | t::tail -> 
-            let (newStr,shift) = foo tail x
-            if (shift = 0) then 
-                (t::newStr, shift)
+        | [currentChar] -> ([(carry + currentChar) % cntOfChars], (carry + currentChar) / cntOfChars)
+        | currentChar::tail -> 
+            let (newStr,newCarry) = add tail carry
+            if (newCarry = 0) then 
+                (currentChar::newStr, newCarry)
             else
-                (((shift + t) % cntOfChars)::newStr, (shift + t) / cntOfChars)
+                (((newCarry + currentChar) % cntOfChars)::newStr, (newCarry + currentChar) / cntOfChars)
         | [] -> raise <| Errors("This should not have happened.")
-    if (ls.Length = 0) then [0]
+    if (List.length ls = 0) then [0]
     else
-        let (newStr,shift) = foo ls 1
-        if (shift = 0) 
+        let (newStr,newCarry) = add ls 1
+        if (newCarry = 0) 
         then newStr
-        else 0::newStr
+        else 0::newStr //this is required to be included in the sequence: 0, 0*, 0**, ...
 
 let toStr (x:obj) = 
     match x with
-    | :? list<int> as ls -> List.fold (fun s c -> s+string(char(c + int('a')))) "" ls
+    | :? list<int> as ls -> List.fold (fun s c -> s + string(char(c + int('a')))) "" ls
     | t -> t.ToString()
 
-let reduction tm = 
-    let nextIntNumber = ref 0UL//1000000000000000UL
-    let nextNormalName = ref []
-    let occupiedNames = ref Set.empty
-    let rec rename names next needUpdateOccupiedNames  (mp:Map<string, string>) tm =
-            let rec selectNextName names =
-                names := next(!names)
-                if (Set.contains (toStr !names) !occupiedNames) then selectNextName names else ()
+let reduction term = 
+    let rec rename occupiedNames name next needUpdateOccupiedNames map term =
+            let rec selectNextName occupiedNames name =
+                let newName = next(name)
+                if (Set.contains (toStr newName) occupiedNames) then selectNextName occupiedNames newName else newName
             
-            match tm with
+            match term with
             | Terms([]) -> raise <| Errors("You can't use Terms []")
-            | Var(x) -> if (Map.containsKey x mp) then Var (Map.find x mp) 
-                        else 
-                            if(needUpdateOccupiedNames) 
-                                then occupiedNames := Set.add x !occupiedNames
-                            Var x
+            | Var(x) -> let newVar = if (Map.containsKey x map) then Map.find x map else x
+                        (Var newVar, name, if(needUpdateOccupiedNames) then Set.add newVar occupiedNames else occupiedNames)
             | Lambda(x, y) -> 
-                let (accArgue, accMap) = 
+                let (accArgue, accMap, accName) = 
                     List.foldBack 
-                        (fun el (accArgue, accMap) -> 
-                            selectNextName names
-                            (toStr(!names)::accArgue, Map.add el (toStr(!names)) accMap))
+                        (fun el (accArgue, accMap, accName) -> 
+                            let newName = selectNextName occupiedNames accName
+                            (toStr(newName)::accArgue, Map.add el (toStr(newName)) accMap, newName))
                         x 
-                        ([], mp) 
-                Lambda(accArgue, rename names next needUpdateOccupiedNames accMap y)
-            | Terms(x) -> Terms (List.foldBack (fun el acc -> (rename names next needUpdateOccupiedNames mp el)::acc) x [])
+                        ([], map, name) 
+                let (term, newName, newOccupiedNames) = rename occupiedNames accName next needUpdateOccupiedNames accMap y
+                (Lambda(accArgue, term), newName, newOccupiedNames)
+            | Terms(x) -> 
+                let (term, newName, newOccupiedNames) = 
+                    List.foldBack 
+                        (fun el (accTerms, accName, accOccupiedNames) -> 
+                            let (term, newName, newOccupiedNames) = rename accOccupiedNames accName next needUpdateOccupiedNames map el
+                            (term::accTerms, newName, newOccupiedNames)) 
+                        x 
+                        ([], name, occupiedNames)
+                (Terms term, newName, newOccupiedNames)
              
-    let rec apply tm =
+    let rec apply term =
         let rec replace a b tm =
             match tm with
             | Terms([]) -> raise <| Errors("You can't use Terms []")
@@ -95,9 +100,9 @@ let reduction tm =
                 | Terms([]) -> raise <| Errors("This should not have happened.")
                 | Terms [o] -> o
                 | o -> o
-            | Terms t -> Terms <| List.foldBack (fun el acc -> (replace a b el) ::acc) t []
+            | Terms t -> Terms <| List.foldBack (fun el acc -> (replace a b el)::acc) t []
             
-        match tm with 
+        match term with 
         | Terms([]) -> raise <| Errors("You can't use Terms []")
         | Var(x) -> Var x
         | Lambda(s, t) -> Lambda (s, apply t)
@@ -109,8 +114,11 @@ let reduction tm =
         | Terms (t::tail) -> 
             match t with
             | Terms (x) -> apply <| Terms (List.append x tail)
-            | o ->Terms <| (List.foldBack (fun el acc -> (apply el) ::acc) (o::tail) [])
-    normalize (rename nextNormalName nextList false Map.empty <| apply (rename nextIntNumber nextInt true Map.empty tm))
+            | o ->Terms <| (List.foldBack (fun el acc -> (apply el)::acc) (o::tail) [])
+    
+    let (term, nextName, occupiedNames) = rename Set.empty 1000000000000000UL nextInt true Map.empty term 
+    let (term, nextName, occupiedNames) = rename occupiedNames [] nextList false Map.empty <| apply term
+    normalize term
 
 (*_*)
 [<EntryPoint>]
