@@ -38,7 +38,7 @@ let printTextAndReadStringAnswer text =
     printf "%s" text
     readStr()
 let add ls = 
-    ls := (printTextAndReadStringAnswer "Enter a name: ", printTextAndReadStringAnswer "Enter a phone number: ")::!ls
+    (printTextAndReadStringAnswer "Enter a name: ", printTextAndReadStringAnswer "Enter a phone number: ")::ls
 
 let findPhone ls = 
     let name = printTextAndReadStringAnswer "Enter a name: "
@@ -74,10 +74,10 @@ let printToFile ls =
         | s::tail -> fout.WriteLine((fst s) + " " + (snd s)); print fout tail
     print fout ls
 
-let readFromFile ls = 
+let readFromFile() = 
     let path = printTextAndReadStringAnswer "Enter file name: "
     if (File.Exists(path) = false) 
-    then printfn "File %s don't exist" path;
+    then printfn "File %s don't exist" path; None
     else
         use fin = new System.IO.StreamReader(File.OpenRead(path))
         let rec read (fin:StreamReader) =
@@ -87,7 +87,7 @@ let readFromFile ls =
                 let s : string[] = fin.ReadLine().Split(' ', '\n')
                 if (s.Length < 2) then []
                 else (s.[0], s.[1])::read fin
-        ls := read fin
+        Some <| read fin
 
 let showHelp ()= 
     printfn "0 - exit"
@@ -108,11 +108,13 @@ let main argv =
         let t = readStr()
         match t with
         | "0" -> exit(0)
-        | "1" -> add ls
+        | "1" -> ls := add !ls
         | "2" -> findPhone !ls
         | "3" -> findName !ls
         | "4" -> print !ls
         | "5" -> printToFile !ls
-        | "6" -> readFromFile ls
+        | "6" -> match readFromFile() with
+                 | Some(x) -> ls := x
+                 | _ -> ()
         | _ -> showHelp()
     0 // return an integer exit code
