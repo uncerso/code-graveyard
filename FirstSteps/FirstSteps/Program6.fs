@@ -36,6 +36,28 @@ let apply tree =
 //=======================</task2>======================
 
 //=======================<task3>=======================
+exception Errors of string
+
+type Queue<'a> = 
+| Empty
+| Ref of 'a * Queue<'a>
+with
+    member v.push el = 
+        let rec handle el queue =
+            match queue with
+            | Empty -> Ref(el, Empty)
+            | Ref (x, tail) -> Ref(x, handle el tail)
+        handle el v
+    member v.front () = 
+        match v with
+        | Empty -> raise <| Errors("Queue is empty!")
+        | Ref (x, _) -> x
+    member v.pop () = 
+        match v with
+        | Empty -> raise <| Errors("Queue is empty!")
+        | Ref (_, tail) -> tail
+    
+
 //=======================</task3>======================
 (*_*)
 [<EntryPoint>]
