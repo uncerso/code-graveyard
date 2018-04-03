@@ -19,6 +19,20 @@ let fold ls =
 //=======================</task1>======================
 
 //=======================<task2>=======================
+type Tree<'a> =
+| Leaf of 'a
+| Tree of 'a * Tree<'a> * Tree<'a>
+
+let apply tree =
+    let rec handle tree depth bestDepth =
+        match tree with
+        | Leaf(_) -> depth + 1
+        | Tree (_, l, r) ->
+            let lDepth = handle l (depth + 1) bestDepth
+            let rDepth = handle r (depth + 1) bestDepth
+            max bestDepth (max lDepth rDepth)
+    handle tree 0 0
+
 //=======================</task2>======================
 
 //=======================<task3>=======================
