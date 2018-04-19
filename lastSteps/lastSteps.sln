@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "lastSteps", "lastSteps\lastSteps.fsproj", "{0D1A3D07-30A9-421F-9367-6AD852CF97D5}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{DDA2F794-D1CC-4046-9237-3B2C1F7D7867}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D1A3D07-30A9-421F-9367-6AD852CF97D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D1A3D07-30A9-421F-9367-6AD852CF97D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D1A3D07-30A9-421F-9367-6AD852CF97D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D1A3D07-30A9-421F-9367-6AD852CF97D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDA2F794-D1CC-4046-9237-3B2C1F7D7867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDA2F794-D1CC-4046-9237-3B2C1F7D7867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDA2F794-D1CC-4046-9237-3B2C1F7D7867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDA2F794-D1CC-4046-9237-3B2C1F7D7867}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1507EBBF-D6FE-4AEA-B727-11CB0FEC1811}
+	EndGlobalSection
+EndGlobal
