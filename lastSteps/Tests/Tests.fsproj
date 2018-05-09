@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="AsyncProgram.fs" />
+    <Compile Include="task3s.fs" />
   </ItemGroup>
 
   <ItemGroup>
