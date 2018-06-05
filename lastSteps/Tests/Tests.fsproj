@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program2.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FsCheck" Version="2.10.9" />
+    <PackageReference Include="FsUnit" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\lastSteps\lastSteps.fsproj" />
+  </ItemGroup>
+
+</Project>
