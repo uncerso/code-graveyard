@@ -30,13 +30,14 @@ let fetchAsync (url : string) finished =
     }
 
 let solve (url : string) = 
-    let rec iterate (urls : Match) = 
+    let rec iterate (urls : Match) =
+        let amountOfNonHrefChars = 9
         if (urls.Success) then
             let finished = ref false
-            Async.Start <| fetchAsync (urls.Value.Substring(9,urls.Value.Length - 9 - 2)) finished 
+            Async.Start <| fetchAsync (urls.Value.Substring(amountOfNonHrefChars, urls.Value.Length - amountOfNonHrefChars - 2)) finished 
             iterate <| urls.NextMatch()
             while not !finished do 
-                printfn "Waiting for %s" <| urls.Value.Substring(9,urls.Value.Length - 9 - 2)
+                printfn "Waiting for %s" <| urls.Value.Substring(amountOfNonHrefChars, urls.Value.Length - amountOfNonHrefChars - 2)
                 wait 500.0
         ()
     let request = WebRequest.Create(url)
