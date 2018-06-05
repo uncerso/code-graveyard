@@ -31,7 +31,7 @@ let test ()=
         }
     ans |> should equal <| None
 //=======================</task2>======================
-
+    printfn "ok"
 
 [<EntryPoint>]
 let main argv =
