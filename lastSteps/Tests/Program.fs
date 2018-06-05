@@ -24,8 +24,6 @@ let test ()=
     let check (x : int) (ls : list<int>) = func x ls = List.map (fun el -> el*x) ls
     Check.Quick check
 //=======================</task2>======================
-//=======================<task3>=======================
-//=======================</task3>======================
 
 
 [<EntryPoint>]
