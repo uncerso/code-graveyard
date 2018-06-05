@@ -48,16 +48,16 @@ let strong_virus_tree () =
     printfn "strong_virus_tree : begin"
     let n = (1 <<< 16) - 1
     let net = Network((fun () -> 5ul))
-    printfn "strong_virus_one_step : point 1"
+    printfn "strong_virus_tree : point 1"
     for i in 1..n do
         net.addComputer(Computer(10ul))
-    printfn "strong_virus_one_step : point 2"
+    printfn "strong_virus_tree : point 2"
     let mutable i = 0
     while ((i + 1) <<< 1) < n do // (i + 1) <<< 1 equal i * 2 + 2
         net.addEdge i ((i <<< 1) + 1)
         net.addEdge i ((i <<< 1) + 2)
         i <- i + 1
-    printfn "strong_virus_one_step : point 3"
+    printfn "strong_virus_tree : point 3"
     net.addVirus 0
     let mutable infestedTo : uint64 = 1UL
     nothingBesideZero net
@@ -70,19 +70,19 @@ let strong_virus_tree () =
     printfn "strong_virus_tree : end"
     
 let random_virus_tree ()= 
-    printfn "strong_virus_tree : begin"
+    printfn "random_virus_tree : begin"
     let n = (1 <<< 16) - 1
     let net = Network (fun () -> uint32 <| rnd.Next())
-    printfn "strong_virus_one_step : point 1"
+    printfn "random_virus_tree : point 1"
     for i in 1..n do
         net.addComputer(Computer(uint32 <| rnd.Next()))
-    printfn "strong_virus_one_step : point 2"
+    printfn "random_virus_tree : point 2"
     let mutable i = 0
     while ((i + 1) <<< 1) < n do // (i + 1) <<< 1 equal i * 2 + 2
         net.addEdge i ((i <<< 1) + 1)
         net.addEdge i ((i <<< 1) + 2)
         i <- i + 1
-    printfn "strong_virus_one_step : point 3"
+    printfn "random_virus_tree : point 3"
     net.addVirus 0
     let mutable infestedTo : uint64 = 1UL
     nothingBesideZero net
@@ -95,7 +95,7 @@ let random_virus_tree ()=
         for j in 1..n-1 do
             if now.[j] then now.[(j - 1) >>> 1] |> should be True // parent infested
             if (i < 63) && (uint64 j >= infestedTo) then now.[j] |> should be False
-    printfn "strong_virus_tree : end"
+    printfn "random_virus_tree : end"
     
 [<EntryPoint>]
 let main argv =
