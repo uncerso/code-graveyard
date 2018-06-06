@@ -31,10 +31,42 @@ let ``test`` ()=
     findName ar "3" |> should equal ["c"]
     findName ar "2" |> should equal ["b"]
     findName ar "1" |> should equal <| "d"::"a"::[]
+    findName ar "9" |> should equal <| []
 
     findPhone ar "c" |> should equal ["3"]
     findPhone ar "a" |> should equal ["1"]
     findPhone ar "b" |> should equal <| "4"::"2"::[]
+    findPhone ar "z" |> should equal <| []
+
+    printToFile ar "testfile.txt"
+    (readFromFile "testfile.txt") |> should equal <| Some ar
+
+    let ar = ("a", "1")::("a", "2")::("a", "3")::("a", "4")::("a", "5")::[]
+    findName ar "1" |> should equal ["a"]
+    findName ar "2" |> should equal ["a"]
+    findName ar "3" |> should equal ["a"]
+    findName ar "4" |> should equal ["a"]
+    findName ar "5" |> should equal ["a"]
+    findName ar "6" |> should equal ["a"]
+    findName ar "7" |> should equal []
+
+    findPhone ar "a" |> should equal ("5"::"4"::"3"::"2"::"1"::[])
+    findPhone ar "b" |> should equal []
+
+    printToFile ar "testfile.txt"
+    (readFromFile "testfile.txt") |> should equal <| Some ar
+
+    let ar = ("a", "1")::("b", "1")::("c", "1")::("d", "1")::("f", "1")::[]
+    findPhone ar "a" |> should equal ["1"]
+    findPhone ar "b" |> should equal ["1"]
+    findPhone ar "c" |> should equal ["1"]
+    findPhone ar "d" |> should equal ["1"]
+    findPhone ar "e" |> should equal ["1"]
+    findPhone ar "6" |> should equal ["1"]
+    findPhone ar "g" |> should equal []
+
+    findName ar "1" |> should equal ("f"::"d"::"c"::"b"::"a"::[])
+    findName ar "2" |> should equal []
 
     printToFile ar "testfile.txt"
     (readFromFile "testfile.txt") |> should equal <| Some ar

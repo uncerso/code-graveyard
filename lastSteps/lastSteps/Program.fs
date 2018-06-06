@@ -79,7 +79,7 @@ let printToFile ls path =
 
 let readFromFile path = 
     if (File.Exists(path) = false) 
-    then printfn "File %s don't exist" path; None
+    then None
     else
         use fin = new System.IO.StreamReader(File.OpenRead(path))
         let rec read (fin:StreamReader) =
@@ -115,9 +115,13 @@ let run() =
                  handle ls
         | "5" -> printToFile ls (getInput "Enter file name: ")
                  handle ls
-        | "6" -> match readFromFile(getInput "Enter file name: ") with
-                    | Some(x) -> handle x
-                    | _ -> handle ls
+        | "6" -> 
+            let path = getInput "Enter file name: "
+            match readFromFile path with
+            | Some(x) -> handle x
+            | _ -> 
+                printfn "File %s don't exist" path;
+                handle ls
         | _ -> showHelp()
                handle ls
     showHelp()
