@@ -36,5 +36,7 @@ run
 .gcda
 .gcno
 
-FirstSteps/FirstSteps/bin/*
-FirstSteps/FirstSteps/obj/*
+**/bin/*
+**/obj/*
+
+*.suo
