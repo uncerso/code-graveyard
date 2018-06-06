@@ -46,33 +46,30 @@ let getInput hint =
 let add ls = 
     (getInput "Enter a name: ", getInput "Enter a phone number: ")::ls
 
-let findPhone ls = 
-    let name = getInput "Enter a name: "
-    let rec find name ls =
+let findPhone ls name = 
+    let rec find name ans ls =
         match ls with
-        | [] -> ()
+        | [] -> ans
         | x::tail -> 
-            if ((fst x) = name) then printfn "%s" <| snd x
-            find name tail
-    find name ls
+            if ((fst x) = name) then  find name ((snd x)::ans) tail
+            else find name ans tail
+    find name [] ls
 
-let findName ls = 
-    let number = getInput "Enter a phone number: "
-    let rec find number ls =
+let findName ls number =
+    let rec find number ans ls =
         match ls with
-        | [] -> ()
+        | [] -> ans
         | x::tail -> 
-            if ((snd x) = number) then printfn "%s" <| fst x 
-            find number tail
-    find number ls
+            if ((snd x) = number) then find number ((fst x)::ans) tail
+            else find number ans tail
+    find number [] ls
 
 let rec print ls = 
     match ls with
     | [] -> ()
     | x::tail -> printfn "%s : %s" <| fst x <| snd x; print tail
 
-let printToFile ls = 
-    let path = getInput "Enter file name: "
+let printToFile ls path = 
     use fout = new System.IO.StreamWriter(File.OpenWrite(path))
     let rec print (fout:StreamWriter) ls=
         match ls with
@@ -80,8 +77,7 @@ let printToFile ls =
         | s::tail -> fout.WriteLine((fst s) + " " + (snd s)); print fout tail
     print fout ls
 
-let readFromFile() = 
-    let path = getInput "Enter file name: "
+let readFromFile path = 
     if (File.Exists(path) = false) 
     then printfn "File %s don't exist" path; None
     else
@@ -111,15 +107,15 @@ let run() =
         match t with
         | "0" -> ()
         | "1" -> handle <| add ls
-        | "2" -> findPhone ls
+        | "2" -> List.iter (fun x -> printfn "%s" x) (findPhone ls (getInput "Enter a name: "))
                  handle ls
-        | "3" -> findName ls
+        | "3" -> List.iter (fun x -> printfn "%s" x) (findName ls (getInput "Enter a phone number: "))
                  handle ls
         | "4" -> print ls
                  handle ls
-        | "5" -> printToFile ls
+        | "5" -> printToFile ls (getInput "Enter file name: ")
                  handle ls
-        | "6" -> match readFromFile() with
+        | "6" -> match readFromFile(getInput "Enter file name: ") with
                     | Some(x) -> handle x
                     | _ -> handle ls
         | _ -> showHelp()

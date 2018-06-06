@@ -1,8 +1,10 @@
-﻿open FsUnit
+﻿open NUnit.Framework
+open FsUnit
 open hw 
 open FsCheck
 
-let test ()= 
+[<Test>]
+let ``test`` ()= 
 //=======================<task1>=======================
     checkBrackets "" |> should be True
     checkBrackets "[" |> should be False
@@ -24,10 +26,17 @@ let test ()=
     let check (x : int) (ls : list<int>) = func x ls = List.map (fun el -> el*x) ls
     Check.Quick check
 //=======================</task2>======================
+//=======================<task3>=======================
+    let ar = ("a", "1")::("b", "2")::("c", "3")::("d", "1")::("b", "4")::[]
+    findName ar "3" |> should equal ["c"]
+    findName ar "2" |> should equal ["b"]
+    findName ar "1" |> should equal <| "d"::"a"::[]
 
+    findPhone ar "c" |> should equal ["3"]
+    findPhone ar "a" |> should equal ["1"]
+    findPhone ar "b" |> should equal <| "4"::"2"::[]
 
-[<EntryPoint>]
-let main argv =
-    test()
-    0 // return an integer exit code
-    
+    printToFile ar "testfile.txt"
+    (readFromFile "testfile.txt") |> should equal <| Some ar
+
+//=======================</task3>======================
