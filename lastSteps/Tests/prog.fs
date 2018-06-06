@@ -35,6 +35,31 @@ let testErase (x:List<int>) =
             t |> should equal p
             t <- t + 1
 
+let randomTest (n) =
+    let bst = BinaryTree<int>()
+    let mutable st = Set.empty
+    for i in 1..n do
+        let el = rnd.Next()
+        if rnd.Next() % 2 = 0 then
+            if Set.contains el st then
+                bst.At el |> should be True
+            else
+                bst.At el |> should be False
+                bst.Insert el
+                bst.At el |> should be True
+        else
+            let sz = bst.Size()
+            if Set.contains el st then
+                bst.At el |> should be True
+                bst.Erase el
+                bst.At el |> should be False
+                bst.Size() |> should equal (sz - 1)
+            else
+                bst.At el |> should be False
+                bst.Erase el
+                bst.At el |> should be False
+                bst.Size() |> should equal sz
+            
 [<Test>]
 let ``test`` () = 
     let n = 8
@@ -46,3 +71,5 @@ let ``test`` () =
 
     for x in permutations (List.init (n - 1) id) Set.empty do
         testErase x
+    for i in 1..100 do
+        randomTest(100)

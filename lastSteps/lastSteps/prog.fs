@@ -15,11 +15,14 @@ type Tree<'T> =
 | Tree of 'T * Tree<'T> * Tree<'T>
 | Leaf
     
+/// <summary>
+/// Implementation of simple binary tree
+/// </summary>
 type BinaryTree<'T when 'T : comparison>() =
     let mutable root = Leaf
     let mutable size = 0
 
-    let Iterator () = 
+    let iterator () = 
         let rec handle (node : Tree<'T>) = 
             seq {
                 match node with
@@ -34,15 +37,18 @@ type BinaryTree<'T when 'T : comparison>() =
     interface IEnumerable<'T> with
 
         member this.GetEnumerator(): IEnumerator<'T> =
-            Iterator().GetEnumerator()
+            iterator().GetEnumerator()
 
         member this.GetEnumerator(): IEnumerator =
-            Iterator().GetEnumerator() :> IEnumerator
+            iterator().GetEnumerator() :> IEnumerator
 
     member v.Empty () = size = 0
 
     member v.Size () = size
 
+    /// <summary>
+    /// Inserts an element into the tree.
+    /// </summary>
     member v.Insert (value : 'T) =
         let rec handle (value : 'T) (node : Tree<'T>) = 
             match node with
@@ -52,6 +58,9 @@ type BinaryTree<'T when 'T : comparison>() =
         root <- handle value root
         size <- size + 1
 
+    /// <summary>
+    /// Removes an element from the tree, if exists.
+    /// </summary>
     member v.Erase (value : 'T) = 
         let rec cutLeft node =
             match node with
@@ -77,6 +86,9 @@ type BinaryTree<'T when 'T : comparison>() =
         root <- handle value root
         size <- size - 1
 
+    /// <summary>
+    /// Checks for the presence of an element in the tree.
+    /// </summary>
     member v.At (value : 'T) =
         let rec handle (value : 'T) (node : Tree<'T>) = 
             match node with
