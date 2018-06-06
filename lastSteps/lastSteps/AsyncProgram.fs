@@ -18,14 +18,13 @@ let wait time =
     timer.Start()
     Async.RunSynchronously timerEvent
 
-let fetchAsync (url : string) finished =
+let fetchAsync (url : string) html finished =
     async{
         let request = WebRequest.Create(url)
         use! response = request.AsyncGetResponse()
         use stream = response.GetResponseStream()
         use reader = new StreamReader(stream)
-        let html = reader.ReadToEnd()
-        do printfn "Read %d characters for %s" html.Length url
+        do html := reader.ReadToEnd()
         do finished := true
     }
 
@@ -34,18 +33,19 @@ let solve (url : string) =
         let amountOfNonHrefChars = 9
         if (urls.Success) then
             let finished = ref false
-            Async.Start <| fetchAsync (urls.Value.Substring(amountOfNonHrefChars, urls.Value.Length - amountOfNonHrefChars - 2)) finished 
+            let html = ref ""
+            let url = urls.Value.Substring(amountOfNonHrefChars, urls.Value.Length - amountOfNonHrefChars - 2)
+            Async.Start <| fetchAsync url html finished 
             iterate <| urls.NextMatch()
             while not !finished do 
                 printfn "Waiting for %s" <| urls.Value.Substring(amountOfNonHrefChars, urls.Value.Length - amountOfNonHrefChars - 2)
                 wait 500.0
+            printfn "Read %d characters for %s" html.Value.Length url
         ()
-    let request = WebRequest.Create(url)
-    use response = request.GetResponse()
-    use stream = response.GetResponseStream()
-    use reader = new StreamReader(stream)
-    let html = reader.ReadToEnd();
-    let urls = Regex.Match(html, "<a href=\"http://[^\"]*\">")
+    let finished = ref false
+    let html = ref ""
+    fetchAsync url html finished |> Async.RunSynchronously
+    let urls = Regex.Match(!html, "<a href=\"http://[^\"]*\">")
     iterate urls
 
 (*_*)
