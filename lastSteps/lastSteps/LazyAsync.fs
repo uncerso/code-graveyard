@@ -25,10 +25,13 @@ type MultiThreadedLazy<'a> (supplier : unit -> 'a) =
     let lockObject = obj()
     interface ILazy<'a> with
         member v.Get() =
-            Monitor.Enter lockObject
             if res.IsNone then
-                res <- Some <| supplier()
-            Monitor.Exit lockObject
+                Monitor.Enter lockObject
+                try
+                    if res.IsNone then
+                        res <- Some <| supplier()
+                finally
+                    Monitor.Exit lockObject
             res.Value
 
 type LockFreeMultiThreadedLazy<'a> (supplier : unit -> 'a) =
