@@ -47,7 +47,7 @@ let ``test`` ()=
     findName ar "3" |> should equal ["a"]
     findName ar "4" |> should equal ["a"]
     findName ar "5" |> should equal ["a"]
-    findName ar "6" |> should equal ["a"]
+    findName ar "6" |> should equal []
     findName ar "7" |> should equal []
 
     findPhone ar "a" |> should equal ("5"::"4"::"3"::"2"::"1"::[])
@@ -61,8 +61,8 @@ let ``test`` ()=
     findPhone ar "b" |> should equal ["1"]
     findPhone ar "c" |> should equal ["1"]
     findPhone ar "d" |> should equal ["1"]
-    findPhone ar "e" |> should equal ["1"]
-    findPhone ar "6" |> should equal ["1"]
+    findPhone ar "e" |> should equal []
+    findPhone ar "f" |> should equal ["1"]
     findPhone ar "g" |> should equal []
 
     findName ar "1" |> should equal ("f"::"d"::"c"::"b"::"a"::[])
